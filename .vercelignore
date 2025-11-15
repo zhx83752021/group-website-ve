@@ -1,0 +1,6 @@
+# 只忽略这些文件，不要忽略 package-lock.json
+node_modules
+.git
+*.log
+.env.local
+

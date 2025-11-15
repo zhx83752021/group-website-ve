@@ -1,0 +1,56 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Dependencies
+node_modules
+backend/node_modules
+
+# Build outputs
+dist
+dist-ssr
+backend/dist
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+backend/.env
+backend/.env.local
+
+# Local files
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Test and debug files
+*.test.ts
+*.spec.ts
+test-*.ts
+test-*.ps1
+diagnose*.html
+diagnose*.bat
+
+# Documentation (temporary)
+*_DEBUG_GUIDE.md
+*_FIX.md
+*_UPDATE.md
+QUICK_FIX_GUIDE.md
+
+# Scripts (keep only necessary ones)
+start-*.bat
+start-*.ps1

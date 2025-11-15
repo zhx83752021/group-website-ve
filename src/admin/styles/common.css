@@ -1,0 +1,318 @@
+/* 管理后台公共样式 */
+
+/* ==================== 布局样式 ==================== */
+.page-container {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.header h2 {
+  margin: 0;
+  color: #333;
+}
+
+.filters {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+/* ==================== 按钮样式 ==================== */
+.btn-primary,
+.btn-secondary {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.btn-secondary {
+  background: #f0f0f0;
+  color: #333;
+}
+
+.btn-secondary:hover {
+  background: #e0e0e0;
+}
+
+.btn-edit,
+.btn-delete,
+.btn-view {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-right: 5px;
+}
+
+.btn-edit,
+.btn-view {
+  background: #e3f2fd;
+  color: #1976d2;
+}
+
+.btn-edit:hover,
+.btn-view:hover {
+  background: #bbdefb;
+}
+
+.btn-delete {
+  background: #ffebee;
+  color: #c62828;
+}
+
+.btn-delete:hover {
+  background: #ffcdd2;
+}
+
+.btn-close {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: #f0f0f0;
+  color: #666;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+  flex-shrink: 0;
+}
+
+.btn-close:hover {
+  background: #e0e0e0;
+  color: #333;
+}
+
+/* ==================== 表单样式 ==================== */
+.search-input,
+.filter-select {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.search-input {
+  flex: 1;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  color: #333;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.form-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.form-actions button {
+  flex: 1;
+}
+
+/* ==================== 表格样式 ==================== */
+.table-container {
+  overflow-x: auto;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.data-table th {
+  background: #f5f7fa;
+  padding: 12px;
+  text-align: left;
+  font-weight: 600;
+  color: #333;
+  border-bottom: 2px solid #e0e6ed;
+}
+
+.data-table td {
+  padding: 12px;
+  border-bottom: 1px solid #e0e6ed;
+}
+
+.data-table tbody tr:hover {
+  background: #f9f9f9;
+}
+
+.actions {
+
+  gap: 5px;
+}
+
+/* ==================== 模态框样式 ==================== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: white;
+  padding: 30px;
+  border-radius: 8px;
+  max-width: 500px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.modal h3 {
+  margin: 0;
+  color: #333;
+}
+
+/* ==================== 状态标签样式 ==================== */
+.status {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  display: inline-block;
+}
+
+/* 产品状态 */
+.status.active {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.status.inactive {
+  background: #ffebee;
+  color: #c62828;
+}
+
+/* 联系状态 */
+.status.pending {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.status.replied {
+  background: #d1ecf1;
+  color: #0c5460;
+}
+
+.status.resolved {
+  background: #d4edda;
+  color: #155724;
+}
+
+/* ==================== 图片样式 ==================== */
+.product-thumbnail {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid #e0e6ed;
+  display: block;
+}
+
+.no-image {
+  width: 60px;
+  height: 60px;
+  background: #f5f7fa;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: #999;
+  border: 1px solid #e0e6ed;
+}
+
+.image-cell {
+  padding: 8px !important;
+}
+
+/* ==================== 图片上传样式 ==================== */
+.image-upload-container {
+  border: 2px dashed #ddd;
+  border-radius: 8px;
+  padding: 15px;
+  background: #fafafa;
+}
+
+.image-preview {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.image-preview img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+  display: block;
+}
