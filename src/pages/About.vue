@@ -1,7 +1,7 @@
 <template>
   <div class="about">
     <!-- 页面标题 -->
-    <section class="page-header">
+    <section class="page-header" :style="{ backgroundImage: `url(${bannerImg})` }">
       <div class="container">
         <h1>关于我们</h1>
         <p>了解我们的故事、使命和愿景</p>
@@ -29,15 +29,30 @@
       <div class="container">
         <div class="mission__grid">
           <div class="mission__item">
-            <h3>🎯 使命</h3>
+            <div class="mission__header">
+              <div class="mission__icon blue">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+              </div>
+              <h3>使命</h3>
+            </div>
             <p>通过先进的云计算技术和全面的安全防护，赋能企业数字化转型，让每个企业都能安全、高效地拥抱云时代。</p>
           </div>
           <div class="mission__item">
-            <h3>🌟 愿景</h3>
+            <div class="mission__header">
+              <div class="mission__icon purple">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </div>
+              <h3>愿景</h3>
+            </div>
             <p>成为全球领先的云计算和数据安全服务提供商，为企业创造可持续的竞争优势和商业价值。</p>
           </div>
           <div class="mission__item">
-            <h3>💡 核心价值观</h3>
+            <div class="mission__header">
+              <div class="mission__icon green">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+              </div>
+              <h3>核心价值观</h3>
+            </div>
             <p>安全第一、技术领先、客户成功、持续创新。我们以客户需求为中心，以技术创新为驱动，以安全可靠为基石。</p>
           </div>
         </div>
@@ -46,7 +61,11 @@
     <!-- 发展历程 -->
     <section class="timeline">
       <div class="container">
-        <h2>发展历程</h2>
+        <div class="section-title">
+          <div class="title-dot-left"></div>
+          <h2>发展历程</h2>
+          <div class="title-dot-right"></div>
+        </div>
         <div class="timeline__items">
           <div v-for="item in timeline" :key="item.year" class="timeline__item">
             <div class="timeline__year">{{ item.year }}</div>
@@ -61,10 +80,14 @@
     <!-- 荣誉资质 -->
     <section class="honors">
       <div class="container">
-        <h2>荣誉资质</h2>
+        <div class="section-title">
+          <div class="title-dot-left"></div>
+          <h2>荣誉资质</h2>
+          <div class="title-dot-right"></div>
+        </div>
         <div class="honors__grid">
           <div v-for="honor in honors" :key="honor.id" class="honor-card">
-            <div class="honor-card__icon">{{ honor.icon }}</div>
+            <div class="honor-card__icon" v-html="honor.icon"></div>
             <h4>{{ honor.title }}</h4>
             <p>{{ honor.year }}</p>
           </div>
@@ -74,20 +97,19 @@
     <!-- 团队 -->
     <section class="team">
       <div class="container">
-        <h2>我们的实力</h2>
+        <div class="section-title">
+          <div class="title-dot-left"></div>
+          <h2>我们的实力</h2>
+          <div class="title-dot-right"></div>
+        </div>
         <p class="team__intro">拥有200+名资深技术专家，包括云计算架构师、安全专家和数据科学家</p>
         <div class="team__stats">
-          <div class="team__stat">
-            <div class="team__stat-number">200+</div>
-            <div class="team__stat-label">技术团队</div>
-          </div>
-          <div class="team__stat">
-            <div class="team__stat-number">50万+</div>
-            <div class="team__stat-label">企业客户</div>
-          </div>
-          <div class="team__stat">
-            <div class="team__stat-number">99.99%</div>
-            <div class="team__stat-label">服务可用性</div>
+          <div v-for="stat in teamStats" :key="stat.id" class="team__stat">
+            <div class="team__stat-icon" v-html="stat.icon"></div>
+            <div class="team__stat-text">
+              <div class="team__stat-number">{{ stat.number }}</div>
+              <div class="team__stat-label">{{ stat.label }}</div>
+            </div>
           </div>
         </div>
       </div>
@@ -95,6 +117,8 @@
   </div>
 </template>
 <script setup lang="ts">
+import bannerImg from '@/assets/about_bg.png'
+
 const timeline = [
   {
     year: '2006',
@@ -123,17 +147,22 @@ const timeline = [
   }
 ]
 const honors = [
-  { id: 1, icon: '🏆', title: '云计算创新企业奖', year: '2024' },
-  { id: 2, icon: '🔐', title: 'ISO 27001信息安全认证', year: '2023' },
-  { id: 3, icon: '⭐', title: '国家高新技术企业', year: '2023' },
-  { id: 4, icon: '🎖️', title: '数据安全先进单位', year: '2022' },
-  { id: 5, icon: '✅', title: 'SOC 2 Type II认证', year: '2022' },
-  { id: 6, icon: '📜', title: '中国云计算产业联盟会员', year: '2021' }
+  { id: 1, icon: '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>', title: '云计算创新企业奖', year: '2024' },
+  { id: 2, icon: '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>', title: 'ISO 27001信息安全认证', year: '2023' },
+  { id: 3, icon: '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>', title: '国家高新技术企业', year: '2023' },
+  { id: 4, icon: '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>', title: '数据安全先进单位', year: '2022' },
+  { id: 5, icon: '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>', title: '中国云计算产业联盟会员', year: '2021' }
+]
+const teamStats = [
+  { id: 1, number: '200+', label: '技术团队', icon: '<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>' },
+  { id: 2, number: '50万+', label: '企业客户', icon: '<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><rect x="9" y="9" width="6" height="6"/></svg>' },
+  { id: 3, number: '99.99%', label: '服务可用性', icon: '<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>' }
 ]
 </script>
 <style scoped>
 .about {
   min-height: 100vh;
+  padding-top: 80px; /* 增加顶部内边距，防止被全局固定头部遮挡 */
 }
 
 .container {
@@ -144,53 +173,64 @@ const honors = [
 
 /* 页面标题 */
 .page-header {
-  background: linear-gradient(90deg, #4f46e5 0%, #7c3aed 100%);
-  color: white;
-  padding: 4rem 1rem;
+  background-size: cover;
+  background-position: center;
+  padding: 5rem 1rem; /* 稍微增加内边距，让背景图展示更多 */
   text-align: center;
   margin-top: 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .page-header h1 {
-  font-size: 2.5rem;
+  font-size: 3rem;
   margin: 0 0 1rem 0;
+  color: #1e3a8a; /* 品牌深蓝，提高对比度 */
+  font-weight: 800;
+  letter-spacing: 2px;
 }
 
 .page-header p {
   font-size: 1.2rem;
   margin: 0;
-  opacity: 0.9;
+  color: #4b5563; /* 深灰色 */
+  font-weight: 500;
 }
 
 /* 简介 */
 .intro {
-  padding: 4rem 0;
+  padding: 2rem 0; /* 调小上下留白 */
+  background: transparent;
 }
 
 .intro__content {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 3rem;
+  gap: 2.5rem; /* 调小图文之间的间距 */
   align-items: center;
 }
 
 .intro__text h2 {
-  font-size: 2rem;
-  margin-bottom: 1.5rem;
-  color: #333;
+  font-size: 2.2rem;
+  margin-bottom: 2rem;
+  color: #1e3a8a; /* 深蓝色标题 */
+  font-weight: 800;
 }
 
 .intro__text p {
-  color: #666;
-  line-height: 1.8;
-  margin-bottom: 1rem;
+  color: #4b5563;
+  line-height: 2.2; /* 增大行高 */
+  margin-bottom: 2rem; /* 增大段落间距 */
+  font-size: 1rem;
 }
 
 .intro__image {
-  height: 400px;
-  border-radius: 8px;
+  height: 320px; /* 调小图片高度 */
+  border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); /* 柔和阴影 */
 }
 
 .intro__image img {
@@ -201,49 +241,71 @@ const honors = [
 
 /* 使命与愿景 */
 .mission {
-  background: #f8f9fa;
-  padding: 4rem 0;
+  background: transparent;
+  padding: 1rem 0 2rem; /* 再次调小底部留白 */
 }
 
 .mission__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
 }
 
 .mission__item {
   background: white;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 2.5rem 2rem;
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.07);
+  display: flex;
+  flex-direction: column;
 }
 
+.mission__header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.mission__icon {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.mission__icon.blue { background: #eff6ff; color: #3b82f6; }
+.mission__icon.purple { background: #faf5ff; color: #a855f7; }
+.mission__icon.green { background: #ecfdf5; color: #10b981; }
+
 .mission__item h3 {
-  font-size: 1.3rem;
-  margin-bottom: 1rem;
-  color: #333;
+  font-size: 1.4rem;
+  margin: 0;
+  color: #1e3a8a;
+  font-weight: 700;
 }
 
 .mission__item p {
-  color: #666;
-  line-height: 1.6;
+  color: #64748b;
+  line-height: 1.8;
+  margin: 0;
+  font-size: 0.95rem;
 }
 
 /* 发展历程 */
 .timeline {
-  padding: 4rem 0;
-}
-
-.timeline h2 {
-  text-align: center;
-  font-size: 2rem;
-  margin-bottom: 3rem;
-  color: #333;
+  padding: 1rem 0 3rem; /* 大幅调小上方留白 */
+  background: transparent;
 }
 
 .timeline__items {
   position: relative;
   padding: 2rem 0;
+  max-width: 1000px; /* 限制最大宽度使卡片不要过长 */
+  margin: 0 auto;
 }
 
 .timeline__items::before {
@@ -253,16 +315,32 @@ const honors = [
   top: 0;
   bottom: 0;
   width: 2px;
-  background: #667eea;
+  background: #bfdbfe; /* 淡蓝色轴线 */
   transform: translateX(-50%);
 }
 
 .timeline__item {
-  margin-bottom: 2rem;
+  position: relative;
+  margin-bottom: 1.5rem; /* 调小节点之间的垂直间距 */
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 2rem;
+  gap: 4rem; /* 卡片与时间年份的距离 */
   align-items: center;
+}
+
+/* 时间轴圆点 */
+.timeline__item::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 14px;
+  height: 14px;
+  background: white;
+  border: 4px solid #60a5fa; /* 蓝边白心 */
+  border-radius: 50%;
+  z-index: 2;
 }
 
 .timeline__item:nth-child(even) {
@@ -275,9 +353,9 @@ const honors = [
 
 .timeline__year {
   text-align: right;
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   font-weight: 700;
-  color: #667eea;
+  color: #3b82f6; /* 主品牌蓝 */
 }
 
 .timeline__item:nth-child(even) .timeline__year {
@@ -286,114 +364,187 @@ const honors = [
 
 .timeline__content {
   background: white;
-  padding: 1.5rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 1.2rem 2rem; /* 调小卡片内部的上下左右间距 */
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.07);
+  transition: all 0.3s ease;
+}
+
+.timeline__content:hover {
+  box-shadow: 0 10px 30px rgba(99, 102, 241, 0.08); /* 悬浮阴影增强 */
 }
 
 .timeline__content h4 {
-  margin: 0 0 0.5rem 0;
-  color: #333;
+  margin: 0 0 0.4rem 0; /* 调小标题下方留白 */
+  color: #1e3a8a;
+  font-size: 1.15rem;
+  font-weight: 700;
 }
 
 .timeline__content p {
   margin: 0;
-  color: #666;
+  color: #64748b;
+  line-height: 1.5; /* 调小段落行高 */
+  font-size: 0.95rem;
+}
+
+/* 标题通用系统 */
+.section-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.2rem;
+  margin-bottom: 2.5rem; /* 减小标题与下方内容的间距 */
+}
+.section-title h2 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #1e3a8a;
+  margin: 0;
+  letter-spacing: 1px;
+}
+.title-dot-left, .title-dot-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.title-dot-left::before, .title-dot-right::after {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #bfdbfe; /* 淡蓝小点 */
+}
+.title-dot-left::after, .title-dot-right::before {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #60a5fa; /* 实心蓝大点 */
 }
 
 /* 荣誉资质 */
 .honors {
-  background: #f8f9fa;
-  padding: 4rem 0;
-}
-
-.honors h2 {
-  text-align: center;
-  font-size: 2rem;
-  margin-bottom: 3rem;
-  color: #333;
+  background: transparent;
+  padding: 1rem 0 3rem; /* 大幅调小上方留白 */
 }
 
 .honors__grid {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 2rem;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1.5rem;
   justify-content: center;
 }
 
 .honor-card {
   background: white;
-  padding: 2rem;
-  border-radius: 8px;
+  padding: 2.5rem 1rem;
+  border-radius: 12px;
   text-align: center;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.07);
   transition: all 0.3s ease;
 }
 
 .honor-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 10px 30px rgba(99, 102, 241, 0.08);
 }
 
 .honor-card__icon {
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
+  width: 80px;
+  height: 80px;
+  background: #eff6ff;
+  color: #3b82f6;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem auto;
+}
+
+.honor-card__icon :deep(svg) {
+  width: 44px;
+  height: 44px;
 }
 
 .honor-card h4 {
-  margin: 0.5rem 0;
-  color: #333;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  margin: 0 0 0.5rem 0;
+  color: #4b5563;
+  font-size: 0.95rem;
+  line-height: 1.4;
 }
 
 .honor-card p {
   margin: 0;
-  color: #999;
+  color: #94a3b8;
   font-size: 0.9rem;
 }
 
 /* 团队 */
 .team {
-  padding: 4rem 0;
+  padding: 1rem 0 4rem; /* 大幅调小上方留白 */
   text-align: center;
 }
 
-.team h2 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-  color: #333;
-}
-
 .team__intro {
-  color: #666;
+  color: #64748b;
   font-size: 1.1rem;
-  margin-bottom: 3rem;
+  margin-bottom: 4rem;
 }
 
 .team__stats {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
 .team__stat {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  padding: 2rem;
-  border-radius: 8px;
+  background: white;
+  padding: 1.5rem 2rem;
+  border-radius: 10px; /* 对齐截图稍小的圆角 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02); /* 减弱阴影 */
+  border: 2.5px solid #dbeafe; /* 添加对应的浅蓝边框线 */
+  transition: transform 0.3s ease;
+}
+
+.team__stat:hover {
+  transform: translateY(-4px);
+}
+
+.team__stat-icon {
+  width: 64px;
+  height: 64px;
+  background: #eff6ff;
+  color: #3b82f6;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.team__stat-text {
+  text-align: left;
 }
 
 .team__stat-number {
-  font-size: 2.5rem;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #3b82f6;
+  margin-bottom: 0.2rem;
+  line-height: 1;
 }
 
 .team__stat-label {
-  font-size: 1rem;
-  opacity: 0.9;
+  font-size: 0.95rem;
+  color: #64748b;
+  font-weight: 500;
 }
 
 /* 响应式 */
