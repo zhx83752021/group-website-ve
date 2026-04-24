@@ -117,47 +117,52 @@
   </div>
 </template>
 <script setup lang="ts">
+import { ref, onMounted } from 'vue'
+import { siteAPI } from '../api/index'
 import bannerImg from '@/assets/about_bg.png'
 
-const timeline = [
-  {
-    year: '2006',
-    title: '公司成立',
-    description: '在北京成立，专注于企业级网络安全和数据保护解决方案'
-  },
-  {
-    year: '2010',
-    title: '云平台上线',
-    description: '推出第一代云建站平台，为中小企业提供低成本的数字化解决方案'
-  },
-  {
-    year: '2015',
-    title: '数据分析平台',
-    description: '发布数据分析和可视化平台，帮助企业深度挖掘数据价值'
-  },
-  {
-    year: '2019',
-    title: '国际扩展',
-    description: '在美国、欧洲、亚太地区建立分支机构，服务全球企业客户'
-  },
-  {
-    year: '2024',
-    title: 'AI智能升级',
-    description: '推出AI驱动的安全防护和数据分析引擎，提升服务智能化水平'
+const timeline = ref<any[]>([])
+const honors = ref<any[]>([])
+
+const fetchAboutData = async () => {
+  try {
+    const [timelineRes, honorsRes] = await Promise.all([
+      siteAPI.getTimeline(),
+      siteAPI.getHonors()
+    ])
+    
+    if (timelineRes.data.success) {
+      timeline.value = timelineRes.data.data
+    }
+    
+    if (honorsRes.data.success) {
+      honors.value = honorsRes.data.data
+    }
+  } catch (error) {
+    console.error('获取关于我们数据失败:', error)
+    // 降级回退到 Mock 数据 (保留原有逻辑作为保险)
+    timeline.value = [
+      { year: '2006', title: '公司成立', description: '在北京成立，专注于企业级网络安全和数据保护解决方案' },
+      { year: '2010', title: '云平台上线', description: '推出第一代云建站平台' },
+      { year: '2015', title: '数据分析平台', description: '发布数据分析和可视化平台' },
+      { year: '2019', title: '国际扩展', description: '在多地建立分支机构' },
+      { year: '2024', title: 'AI智能升级', description: '推出AI驱动的安全防护引擎' }
+    ]
+    honors.value = [
+      { id: 1, title: '云计算创新企业奖', year: '2024', icon: '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>' }
+    ]
   }
-]
-const honors = [
-  { id: 1, icon: '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>', title: '云计算创新企业奖', year: '2024' },
-  { id: 2, icon: '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>', title: 'ISO 27001信息安全认证', year: '2023' },
-  { id: 3, icon: '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>', title: '国家高新技术企业', year: '2023' },
-  { id: 4, icon: '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>', title: '数据安全先进单位', year: '2022' },
-  { id: 5, icon: '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>', title: '中国云计算产业联盟会员', year: '2021' }
-]
+}
+
 const teamStats = [
   { id: 1, number: '200+', label: '技术团队', icon: '<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>' },
   { id: 2, number: '50万+', label: '企业客户', icon: '<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><rect x="9" y="9" width="6" height="6"/></svg>' },
   { id: 3, number: '99.99%', label: '服务可用性', icon: '<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>' }
 ]
+
+onMounted(() => {
+  fetchAboutData()
+})
 </script>
 <style scoped>
 .about {

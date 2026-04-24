@@ -20,10 +20,20 @@
         </div>
 
         <!-- 产品网格 -->
-        <div class="products__grid">
+        <div v-if="loading" class="products__grid">
+          <div v-for="i in 4" :key="i" class="skeleton-product">
+            <div class="skeleton-image"></div>
+            <div class="skeleton-content">
+              <div class="skeleton-line title"></div>
+              <div class="skeleton-line text"></div>
+              <div class="skeleton-line text"></div>
+            </div>
+          </div>
+        </div>
+        <div v-else class="products__grid">
           <div v-for="product in filteredProducts" :key="product.id" class="product-card">
             <div class="product-card__image">
-              <img :src="product.image_url" :alt="product.name" />
+              <img :src="product.image_url" :alt="product.name" loading="lazy" />
               <div class="product-card__badge">{{ product.category }}</div>
             </div>
             <div class="product-card__content">
@@ -80,12 +90,14 @@ import { ref, computed, onMounted } from 'vue'
 import { productAPI } from '../api/index'
 
 const activeCategory = ref('全部')
+const loading = ref(true)
 import bannerImg from '@/assets/about_bg.png'
 const categories = ref(['全部'])
 const products = ref<any[]>([])
 
 // 从后端获取产品数据
 const fetchProducts = async () => {
+  loading.value = true
   try {
     const response = await productAPI.getList(100)
     if (response.data.success) {
@@ -105,6 +117,10 @@ const fetchProducts = async () => {
     }
   } catch (error) {
     console.error('获取产品列表失败:', error)
+  } finally {
+    setTimeout(() => {
+      loading.value = false
+    }, 500)
   }
 }
 
@@ -292,6 +308,58 @@ onMounted(() => {
   font-size: 1.2rem;
   font-weight: 700;
   color: #4f46e5;
+}
+
+/* 骨架屏 */
+.skeleton-product {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  height: 450px;
+}
+
+.skeleton-image {
+  width: 100%;
+  height: 200px;
+  background: #f0f0f0;
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton-content {
+  padding: 1.5rem;
+}
+
+.skeleton-line {
+  height: 1rem;
+  background: #f0f0f0;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton-line.title {
+  width: 60%;
+  height: 1.5rem;
+}
+
+.skeleton-line.text {
+  width: 90%;
+}
+
+.skeleton-image::after, .skeleton-line::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
 }
 
 /* 产品对比 */

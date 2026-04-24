@@ -19,7 +19,17 @@
           </button>
         </div>
         <!-- 新闻网格 -->
-        <div class="news__grid">
+        <div v-if="loading" class="news__grid">
+          <div v-for="i in 6" :key="i" class="skeleton-card">
+            <div class="skeleton-image"></div>
+            <div class="skeleton-content">
+              <div class="skeleton-line title"></div>
+              <div class="skeleton-line text"></div>
+              <div class="skeleton-line text"></div>
+            </div>
+          </div>
+        </div>
+        <div v-else class="news__grid">
           <router-link v-for="news in filteredNews" :key="news.id" :to="`/news/${news.id}`" class="news-card">
             <img :src="news.image" :alt="news.title" class="news-card__image" />
             <div class="news-card__content">
@@ -50,6 +60,7 @@ import { ref, computed, onMounted } from 'vue'
 import { newsAPI } from '../api/index'
 
 const activeCategory = ref('全部')
+const loading = ref(true)
 import bannerImg from '@/assets/about_bg.png'
 const categories = ['全部', '公司新闻', '产品发布', '合作动态', '行业资讯']
 const allNews = ref<any[]>([])
@@ -59,6 +70,7 @@ const totalNews = ref(0)
 
 // 从后端获取新闻数据
 const fetchNews = async () => {
+  loading.value = true
   try {
     const offset = (currentPage.value - 1) * pageSize.value
     const response = await newsAPI.getList(pageSize.value, offset)
@@ -84,6 +96,10 @@ const fetchNews = async () => {
         image: 'https://images.unsplash.com/photo-1557804506-669a67965ba0?w=400&h=250&fit=crop'
       }
     ]
+  } finally {
+    setTimeout(() => {
+      loading.value = false
+    }, 500) // 给予一点动画展示时间
   }
 }
 
@@ -258,6 +274,61 @@ onMounted(() => {
   color: #3b82f6;
   font-weight: 600;
   font-size: 0.9rem;
+}
+
+/* 骨架屏样式 */
+.skeleton-card {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  height: 400px;
+}
+
+.skeleton-image {
+  width: 100%;
+  height: 200px;
+  background: #f0f0f0;
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton-content {
+  padding: 1.5rem;
+}
+
+.skeleton-line {
+  height: 1rem;
+  background: #f0f0f0;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton-line.title {
+  width: 70%;
+  height: 1.5rem;
+}
+
+.skeleton-line.text {
+  width: 100%;
+}
+
+.skeleton-image::after, .skeleton-line::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
 }
 
 /* 分页 */

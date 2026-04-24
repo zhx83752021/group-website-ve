@@ -54,6 +54,30 @@
           <span class="icon">👥</span>
           <span>用户管理</span>
         </router-link>
+        <router-link
+          to="/admin/cases"
+          class="menu-item"
+          :class="{ active: $route.path.includes('cases') }"
+        >
+          <span class="icon">💼</span>
+          <span>案例管理</span>
+        </router-link>
+        <router-link
+          to="/admin/about"
+          class="menu-item"
+          :class="{ active: $route.path.includes('about') }"
+        >
+          <span class="icon">📜</span>
+          <span>关于我们</span>
+        </router-link>
+        <router-link
+          to="/admin/settings"
+          class="menu-item"
+          :class="{ active: $route.path.includes('settings') }"
+        >
+          <span class="icon">⚙️</span>
+          <span>站点配置</span>
+        </router-link>
       </nav>
       <div class="user-info">
         <div class="user-name">{{ currentUser?.username }}</div>
@@ -93,6 +117,9 @@ const pageTitle = computed(() => {
     "/admin/contacts": "联系表单",
     "/admin/business": "业务信息",
     "/admin/users": "用户管理",
+    "/admin/cases": "成功案例管理",
+    "/admin/about": "关于我们管理",
+    "/admin/settings": "站点全局配置",
   };
   return titles[router.currentRoute.value.path] || "后台管理";
 });

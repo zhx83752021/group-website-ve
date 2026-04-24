@@ -69,7 +69,7 @@
           <router-link v-for="news in newsList.slice(0, 3)" :key="news.id" :to="`/news/${news.id}`" class="news-card">
             <!-- 图片区：分类标签叠在左下角 -->
             <div class="news-card__img-wrap">
-              <img :src="news.image" :alt="news.title" class="news-card__image" />
+              <img :src="news.image" :alt="news.title" class="news-card__image" loading="lazy" />
               <span class="news-card__category" :class="`category--${news.category}`">{{ news.category }}</span>
             </div>
             <!-- 文字内容区 -->
@@ -98,11 +98,12 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { newsAPI } from '../api/index'
+import { newsAPI, siteAPI } from '../api/index'
 import bannerImg from '@/assets/banner.png'
 import ctaBg from '@/assets/bg1.png'
 
 const newsList = ref<any[]>([])
+const siteConfig = ref<Record<string, string>>({})
 
 // 从后端获取新闻数据
 const fetchNews = async () => {
@@ -129,12 +130,29 @@ const fetchNews = async () => {
         image: 'https://images.unsplash.com/photo-1557804506-669a67965ba0?w=400&h=250&fit=crop'
       }
     ]
+  }
+}
 
+// 获取站点配置
+const fetchConfig = async () => {
+  try {
+    const response = await siteAPI.getConfig()
+    if (response.data.success) {
+      siteConfig.value = response.data.data
+      // 更新统计数据
+      if (siteConfig.value.stats_years) stats.value[0].number = siteConfig.value.stats_years
+      if (siteConfig.value.stats_clients) stats.value[1].number = siteConfig.value.stats_clients
+      if (siteConfig.value.stats_team) stats.value[2].number = siteConfig.value.stats_team
+      if (siteConfig.value.stats_availability) stats.value[3].number = siteConfig.value.stats_availability
+    }
+  } catch (error) {
+    console.error('获取站点配置失败:', error)
   }
 }
 
 onMounted(() => {
   fetchNews()
+  fetchConfig()
 })
 
 // 英雄区鼠标跟随高光效果
@@ -208,7 +226,7 @@ const services = [
   }
 ]
 
-const stats = [
+const stats = ref([
   {
     id: 1,
     number: '18+',
@@ -233,7 +251,7 @@ const stats = [
     label: '服务可用性',
     icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>'
   }
-]
+])
 </script>
 
 <style scoped>

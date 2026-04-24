@@ -11,6 +11,17 @@
           :class="['nav-link', { 'nav-link--active': activeMenu === item.name }]" @click="setActiveMenu(item.name)">
           {{ item.label }}
         </router-link>
+        
+        <!-- 搜索框 -->
+        <div class="search-box">
+          <input 
+            v-model="searchQuery" 
+            type="text" 
+            placeholder="搜索..." 
+            @keyup.enter="performSearch"
+          />
+          <button @click="performSearch" class="search-btn">🔍</button>
+        </div>
       </nav>
 
       <!-- 移动端菜单按钮 -->
@@ -31,11 +42,24 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { useRouter } from 'vue-router'
 import { useNavStore, useAppStore } from '../stores'
 
+const router = useRouter()
 const navStore = useNavStore()
 const appStore = useAppStore()
+const searchQuery = ref('')
+
+const performSearch = () => {
+  if (!searchQuery.value.trim()) return
+  router.push({
+    path: '/search',
+    query: { keyword: searchQuery.value.trim() }
+  })
+  searchQuery.value = ''
+  closeMenu()
+}
 
 const activeMenu = computed(() => navStore.activeMenu)
 const isMenuOpen = computed(() => navStore.isMenuOpen)
@@ -176,6 +200,48 @@ onUnmounted(() => {
   height: 3px;
   background: #4f46e5;
   border-radius: 2px;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  background: #f3f4f6;
+  border-radius: 20px;
+  padding: 4px 12px;
+  margin-left: 1rem;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+}
+
+.search-box:focus-within {
+  background: white;
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+.search-box input {
+  border: none;
+  background: transparent;
+  outline: none;
+  padding: 4px;
+  width: 120px;
+  font-size: 0.9rem;
+  transition: width 0.3s ease;
+}
+
+.search-box input:focus {
+  width: 180px;
+}
+
+.search-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .header__menu-btn--mobile {

@@ -13,7 +13,7 @@
         <div v-for="(business, index) in businesses" :key="business.id" class="business-item"
           :class="{ 'business-item--reverse': index % 2 === 1 }">
           <div class="business-item__image">
-            <img :src="business.image" :alt="business.title" />
+            <img :src="business.image" :alt="business.title" loading="lazy" />
           </div>
           <div class="business-item__content">
             <h2>{{ business.title }}</h2>
@@ -72,9 +72,10 @@
 </template>
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { businessAPI } from '../api/index'
+import { businessAPI, siteAPI } from '../api/index'
 
 const businesses = ref<any[]>([])
+const cases = ref<any[]>([])
 import bannerImg from '@/assets/about_bg.png'
 
 // 从后端获取业务数据
@@ -111,36 +112,33 @@ const fetchBusinesses = async () => {
   }
 }
 
+// 获取成功案例
+const fetchCases = async () => {
+  try {
+    const response = await siteAPI.getCases()
+    if (response.data.success) {
+      cases.value = response.data.data
+    }
+  } catch (error) {
+    console.error('获取成功案例失败:', error)
+    // 降级使用 Mock
+    cases.value = [
+      {
+        id: 1,
+        title: '大型集团官网改版',
+        company: '某上市集团',
+        description: '完成集团官网的全面改版，提升品牌形象和用户体验。',
+        image: 'https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=400&h=300&fit=crop',
+        stats: ['提升访问量 150%', '转化率提高 45%', '用户满意度 98%']
+      }
+    ]
+  }
+}
+
 onMounted(() => {
   fetchBusinesses()
+  fetchCases()
 })
-
-const cases = [
-  {
-    id: 1,
-    title: '大型集团官网改版',
-    company: '某上市集团',
-    description: '完成集团官网的全面改版，提升品牌形象和用户体验。',
-    image: 'https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=400&h=300&fit=crop',
-    stats: ['提升访问量 150%', '转化率提高 45%', '用户满意度 98%']
-  },
-  {
-    id: 2,
-    title: '电商平台建设',
-    company: '知名电商企业',
-    description: '从零开始构建完整的电商平台，支持日均10万+订单。',
-    image: 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=400&h=300&fit=crop',
-    stats: ['日均订单 10万+', '系统可用性 99.9%', '客户满意度 96%']
-  },
-  {
-    id: 3,
-    title: '小程序开发',
-    company: '零售连锁企业',
-    description: '开发微信小程序，实现线上线下一体化运营。',
-    image: 'https://images.unsplash.com/photo-1551650975-87deedd944c3?w=400&h=300&fit=crop',
-    stats: ['用户数 50万+', '日活跃用户 5万+', '复购率 35%']
-  }
-]
 const processSteps = [
   {
     id: 1,

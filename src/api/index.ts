@@ -94,5 +94,19 @@ export const authAPI = {
     api.post('/auth/change-password', { oldPassword, newPassword }),
 };
 
+// 站点信息 API
+export const siteAPI = {
+  getTimeline: () => api.get('/site/timeline'),
+  getHonors: () => api.get('/site/honors'),
+  getCases: () => api.get('/site/cases'),
+  getConfig: () => api.get('/site/config'),
+  updateConfig: (data: any) => api.post('/site/config', data),
+};
+
+// 搜索 API
+export const searchAPI = {
+  search: (keyword: string) => api.get('/search', { params: { keyword } }),
+};
+
 export default api;
 

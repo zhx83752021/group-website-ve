@@ -78,6 +78,54 @@ export async function initializeDatabase() {
       )
     `);
 
+    // 创建发展历程表
+    await query(`
+      CREATE TABLE IF NOT EXISTS timeline (
+        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+        year VARCHAR(20) NOT NULL,
+        title VARCHAR(255) NOT NULL,
+        description TEXT,
+        order_index INT DEFAULT 0,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+
+    // 创建荣誉资质表
+    await query(`
+      CREATE TABLE IF NOT EXISTS honors (
+        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+        title VARCHAR(255) NOT NULL,
+        year VARCHAR(20),
+        icon TEXT,
+        order_index INT DEFAULT 0,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+
+    // 创建站点全局配置表
+    await query(`
+      CREATE TABLE IF NOT EXISTS site_config (
+        key VARCHAR(100) PRIMARY KEY,
+        value TEXT NOT NULL,
+        description TEXT,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+
+    // 创建成功案例表
+    await query(`
+      CREATE TABLE IF NOT EXISTS cases (
+        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+        title VARCHAR(255) NOT NULL,
+        company VARCHAR(255),
+        description TEXT,
+        image_url TEXT,
+        stats TEXT, -- JSON string or comma separated
+        order_index INT DEFAULT 0,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+
     console.log('✅ 数据库初始化完成');
 
     // 迁移：将 image_url 和 icon_url 字段从 VARCHAR(500) 改为 TEXT 以支持 Base64 图片

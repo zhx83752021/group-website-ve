@@ -8,6 +8,8 @@ import Products from '../pages/Products.vue'
 import News from '../pages/News.vue'
 import NewsDetail from '../pages/NewsDetail.vue'
 import Contact from '../pages/Contact.vue'
+import Search from '../pages/Search.vue'
+import NotFound from '../pages/NotFound.vue'
 
 // 后台管理组件
 import AdminLayout from '../admin/layout/AdminLayout.vue'
@@ -18,6 +20,9 @@ import ProductManagement from '../admin/pages/ProductManagement.vue'
 import ContactManagement from '../admin/pages/ContactManagement.vue'
 import BusinessManagement from '../admin/pages/BusinessManagement.vue'
 import UserManagement from '../admin/pages/UserManagement.vue'
+import AboutManagement from '../admin/pages/AboutManagement.vue'
+import SiteSettings from '../admin/pages/SiteSettings.vue'
+import CaseManagement from '../admin/pages/CaseManagement.vue'
 
 const routes = [
   {
@@ -61,6 +66,12 @@ const routes = [
     name: 'Contact',
     component: Contact,
     meta: { title: '联系我们 - CloudTech' }
+  },
+  {
+    path: '/search',
+    name: 'Search',
+    component: Search,
+    meta: { title: '搜索结果 - CloudTech' }
   },
   // 后台管理路由
   {
@@ -109,8 +120,32 @@ const routes = [
         name: 'UserManagement',
         component: UserManagement,
         meta: { title: '用户管理 - 后台管理' }
+      },
+      {
+        path: 'about',
+        name: 'AboutManagement',
+        component: AboutManagement,
+        meta: { title: '关于我们管理 - 后台管理' }
+      },
+      {
+        path: 'settings',
+        name: 'SiteSettings',
+        component: SiteSettings,
+        meta: { title: '站点配置 - 后台管理' }
+      },
+      {
+        path: 'cases',
+        name: 'CaseManagement',
+        component: CaseManagement,
+        meta: { title: '案例管理 - 后台管理' }
       }
     ]
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'NotFound',
+    component: NotFound,
+    meta: { title: '404 - 页面未找到' }
   }
 ]
 

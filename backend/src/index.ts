@@ -9,6 +9,8 @@ import contactRoutes from './routes/contact.js';
 import businessRoutes from './routes/business.js';
 import authRoutes from './routes/auth.js';
 import productRoutes from './routes/product.js';
+import siteRoutes from './routes/site.js';
+import searchRoutes from './routes/search.js';
 
 dotenv.config();
 
@@ -31,6 +33,8 @@ app.use('/api/contact', contactRoutes);
 app.use('/api/business', businessRoutes);
 app.use('/api/product', productRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/site', siteRoutes);
+app.use('/api/search', searchRoutes);
 
 // 健康检查
 app.get('/api/health', (req, res) => {

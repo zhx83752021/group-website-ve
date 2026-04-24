@@ -152,6 +152,94 @@ export async function seedDatabase() {
       console.log('✅ 插入示例产品数据');
     }
 
+    // 插入示例发展历程
+    const timelineCount = await query('SELECT COUNT(*) FROM timeline');
+    if (timelineCount.rows[0].count === '0') {
+      const timelineData = [
+        { year: '2006', title: '公司成立', description: '在北京成立，专注于企业级网络安全和数据保护解决方案', order_index: 1 },
+        { year: '2010', title: '云平台上线', description: '推出第一代云建站平台，为中小企业提供低成本的数字化解决方案', order_index: 2 },
+        { year: '2015', title: '数据分析平台', description: '发布数据分析和可视化平台，帮助企业深度挖掘数据价值', order_index: 3 },
+        { year: '2019', title: '国际扩展', description: '在美国、欧洲、亚太地区建立分支机构，服务全球企业客户', order_index: 4 },
+        { year: '2024', title: 'AI智能升级', description: '推出AI驱动的安全防护和数据分析引擎，提升服务智能化水平', order_index: 5 }
+      ];
+      for (const item of timelineData) {
+        await query(
+          `INSERT INTO timeline (year, title, description, order_index) VALUES ($1, $2, $3, $4)`,
+          [item.year, item.title, item.description, item.order_index]
+        );
+      }
+      console.log('✅ 插入示例发展历程数据');
+    }
+
+    // 插入示例荣誉资质
+    const honorsCount = await query('SELECT COUNT(*) FROM honors');
+    if (honorsCount.rows[0].count === '0') {
+      const honorsData = [
+        { title: '云计算创新企业奖', year: '2024', order_index: 1 },
+        { title: 'ISO 27001信息安全认证', year: '2023', order_index: 2 },
+        { title: '国家高新技术企业', year: '2023', order_index: 3 },
+        { title: '数据安全先进单位', year: '2022', order_index: 4 },
+        { title: '中国云计算产业联盟会员', year: '2021', order_index: 5 }
+      ];
+      for (const honor of honorsData) {
+        await query(
+          `INSERT INTO honors (title, year, order_index) VALUES ($1, $2, $3)`,
+          [honor.title, honor.year, honor.order_index]
+        );
+      }
+      console.log('✅ 插入示例荣誉资质数据');
+    }
+
+    // 插入站点配置
+    const configCount = await query('SELECT COUNT(*) FROM site_config');
+    if (configCount.rows[0].count === '0') {
+      const configData = [
+        { key: 'stats_years', value: '18+', description: '年技术积累' },
+        { key: 'stats_clients', value: '50万+', description: '企业客户' },
+        { key: 'stats_team', value: '200+', description: '技术团队' },
+        { key: 'stats_availability', value: '99.99%', description: '服务可用性' },
+        { key: 'site_icp', value: '京ICP备12345678号', description: '网站备案号' },
+        { key: 'site_phone', value: '400-660-8066', description: '联系电话' }
+      ];
+      for (const config of configData) {
+        await query(
+          `INSERT INTO site_config (key, value, description) VALUES ($1, $2, $3)`,
+          [config.key, config.value, config.description]
+        );
+      }
+      console.log('✅ 插入示例站点配置数据');
+    }
+
+    // 插入示例成功案例
+    const casesCount = await query('SELECT COUNT(*) FROM cases');
+    if (casesCount.rows[0].count === '0') {
+      const casesData = [
+        {
+          title: '大型集团官网改版',
+          company: '某上市集团',
+          description: '完成集团官网的全面改版，提升品牌形象和用户体验。',
+          image_url: 'https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=400&h=300&fit=crop',
+          stats: '提升访问量 150%,转化率提高 45%,用户满意度 98%',
+          order_index: 1
+        },
+        {
+          title: '电商平台建设',
+          company: '知名电商企业',
+          description: '从零开始构建完整的电商平台，支持日均10万+订单。',
+          image_url: 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=400&h=300&fit=crop',
+          stats: '日均订单 10万+,系统可用性 99.9%,客户满意度 96%',
+          order_index: 2
+        }
+      ];
+      for (const item of casesData) {
+        await query(
+          `INSERT INTO cases (title, company, description, image_url, stats, order_index) VALUES ($1, $2, $3, $4, $5, $6)`,
+          [item.title, item.company, item.description, item.image_url, item.stats, item.order_index]
+        );
+      }
+      console.log('✅ 插入示例成功案例数据');
+    }
+
     console.log('✅ 数据库填充完成');
   } catch (error) {
     console.error('❌ 数据库填充失败:', error);
