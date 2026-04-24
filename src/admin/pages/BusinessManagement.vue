@@ -141,7 +141,8 @@ onMounted(fetchBusiness);
 /* 页面特有样式 - 公共样式已在 AdminLayout 中引入 */
 .business-management {
   background: white;
-  padding: 20px;
+  padding: 24px;
   border-radius: 8px;
+  box-shadow: var(--shadow-sm);
 }
 </style>

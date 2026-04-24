@@ -1,8 +1,8 @@
 <template>
   <div class="search-results">
-    <section class="results-header">
+    <section class="page-header" :style="{ backgroundImage: `url(${bannerImg})` }">
       <div class="container">
-        <h2>搜索结果</h2>
+        <h1>搜索结果</h1>
         <p v-if="keyword">关键词: <span class="highlight">"{{ keyword }}"</span></p>
       </div>
     </section>
@@ -37,6 +37,7 @@
 import { ref, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { searchAPI } from '../api/index'
+import bannerImg from '@/assets/about_bg.png'
 
 const route = useRoute()
 const router = useRouter()
@@ -82,16 +83,37 @@ watch(() => route.query.keyword, () => {
 
 <style scoped>
 .search-results {
-  padding-top: 100px;
+  padding-top: 80px;
   min-height: 80vh;
   background: #fcfcfd;
 }
 
-.results-header {
-  background: #fff;
-  padding: 40px 0;
-  border-bottom: 1px solid #f0f0f5;
+.page-header {
+  background-size: cover;
+  background-position: center;
+  padding: 5rem 1rem;
+  text-align: center;
+  margin-top: 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   margin-bottom: 40px;
+}
+
+.page-header h1 {
+  font-size: 3rem;
+  margin: 0 0 1rem 0;
+  color: #1e3a8a;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.page-header p {
+  font-size: 1.2rem;
+  margin: 0;
+  color: #4b5563;
+  font-weight: 500;
 }
 
 .highlight {

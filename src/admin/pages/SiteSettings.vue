@@ -10,7 +10,10 @@
     <div class="settings-container">
       <!-- 统计数据配置 -->
       <section class="settings-section">
-        <h3>📊 首页统计数字</h3>
+        <h3>
+          <svg viewBox="0 0 1024 1024" width="20" height="20" class="section-icon"><path d="M880 112H144c-17.7 0-32 14.3-32 32v736c0 17.7 14.3 32 32 32h736c17.7 0 32-14.3 32-32V144c0-17.7-14.3-32-32-32zM704 736h-64V448h64v288zm-160 0h-64V320h64v416zm-160 0h-64V512h64v224z" fill="currentColor"></path></svg>
+          首页统计数字
+        </h3>
         <div class="settings-grid">
           <div class="form-group">
             <label>年技术积累</label>
@@ -33,7 +36,10 @@
 
       <!-- 备案与联系方式 -->
       <section class="settings-section">
-        <h3>📞 备案与联系方式</h3>
+        <h3>
+          <svg viewBox="0 0 1024 1024" width="20" height="20" class="section-icon"><path d="M896 160H128c-17.7 0-32 14.3-32 32v640c0 17.7 14.3 32 32 32h768c17.7 0 32-14.3 32-32V192c0-17.7-14.3-32-32-32zM384 736h-64V640h64v96zm0-160h-64v-96h64v96zm0-160h-64v-96h64v96zm160 320h-64V672h64v64zm0-160h-64v-64h64v64zm0-160h-64v-64h64v64z" fill="currentColor"></path></svg>
+          备案与联系方式
+        </h3>
         <div class="settings-grid">
           <div class="form-group">
             <label>网站备案号</label>
@@ -48,15 +54,18 @@
 
       <!-- SEO 相关 -->
       <section class="settings-section">
-        <h3>🔍 SEO 设置 (功能开发中)</h3>
+        <h3>
+          <svg viewBox="0 0 1024 1024" width="20" height="20" class="section-icon"><path d="M924.8 385.6C822.1 223.4 611 156 512 156s-310.1 67.4-412.8 229.6a44.64 44.64 0 0 0 0 44.8C201.9 592.6 413 660 512 660s310.1-67.4 412.8-229.6a44.64 44.64 0 0 0 0-44.8zM512 596c-103.8 0-251.6-96-322-201 70.4-105 218.2-201 322-201s251.6 96 322 201c-70.4 105-218.2 201-322 201z" fill="currentColor"></path><path d="M512 300c-60.8 0-110 49.2-110 110s49.2 110 110 110 110-49.2 110-110-49.2-110-110-110zm0 180c-38.7 0-70-31.3-70-70s31.3-70 70-70 70 31.3 70 70-31.3 70-70 70z" fill="currentColor"></path></svg>
+          SEO 设置
+        </h3>
         <div class="settings-grid">
           <div class="form-group">
             <label>全局 Keywords</label>
-            <input type="text" placeholder="云计算, 数据安全, 数字化转型" disabled />
+            <input v-model="settings.seo_keywords" type="text" placeholder="云计算, 数据安全, 数字化转型" />
           </div>
           <div class="form-group">
             <label>全局 Description</label>
-            <textarea rows="3" placeholder="专业的云计算与数据安全解决方案领导者" disabled></textarea>
+            <textarea v-model="settings.seo_description" rows="3" placeholder="专业的云计算与数据安全解决方案领导者"></textarea>
           </div>
         </div>
       </section>
@@ -75,7 +84,9 @@ const settings = ref<Record<string, string>>({
   stats_team: '',
   stats_availability: '',
   site_icp: '',
-  site_phone: ''
+  site_phone: '',
+  seo_keywords: '',
+  seo_description: ''
 })
 
 const saving = ref(false)
@@ -115,16 +126,16 @@ onMounted(fetchSettings)
 .site-settings {
   background: white;
   padding: 24px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  border-radius: 8px;
+  box-shadow: var(--shadow-sm);
 }
 
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 30px;
-  padding-bottom: 20px;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
   border-bottom: 1px solid #f0f0f0;
 }
 
@@ -133,16 +144,21 @@ onMounted(fetchSettings)
 }
 
 .settings-section {
-  margin-bottom: 40px;
+  margin-bottom: 32px;
 }
 
 .settings-section h3 {
-  font-size: 18px;
-  color: #1a1a1a;
+  font-size: 16px;
+  color: var(--text-main);
   margin-bottom: 20px;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
+  font-weight: 600;
+}
+
+.section-icon {
+  color: var(--primary-color);
 }
 
 .settings-grid {
@@ -158,28 +174,29 @@ onMounted(fetchSettings)
 }
 
 .form-group label {
-  font-weight: 600;
-  color: #4a5568;
+  font-weight: 500;
+  color: var(--text-main);
   font-size: 14px;
 }
 
 .form-group input, .form-group textarea {
-  padding: 10px 14px;
-  border: 1.5px solid #e2e8f0;
-  border-radius: 8px;
+  padding: 8px 12px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
   font-size: 14px;
-  transition: all 0.3s;
+  transition: all 0.2s;
 }
 
-.form-group input:focus {
-  border-color: #667eea;
+.form-group input:focus, .form-group textarea:focus {
+  border-color: var(--primary-color);
   outline: none;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  box-shadow: 0 0 0 2px rgba(22, 119, 255, 0.1);
 }
 
 .form-group input:disabled {
-  background: #f8fafc;
+  background: #f5f5f5;
   cursor: not-allowed;
+  color: rgba(0, 0, 0, 0.25);
 }
 
 @media (max-width: 640px) {

@@ -2,7 +2,9 @@
   <div class="dashboard">
     <div class="stats-grid">
       <div class="stat-card">
-        <div class="stat-icon news">📰</div>
+        <div class="stat-icon news">
+          <svg viewBox="0 0 1024 1024" width="24" height="24"><path d="M904 160H120c-4.4 0-8 3.6-8 8v64c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-64c0-4.4-3.6-8-8-8zm0 624H120c-4.4 0-8 3.6-8 8v64c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-64c0-4.4-3.6-8-8-8zm0-312H120c-4.4 0-8 3.6-8 8v64c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-64c0-4.4-3.6-8-8-8z" fill="currentColor"></path></svg>
+        </div>
         <div class="stat-content">
           <div class="stat-label">新闻总数</div>
           <div class="stat-value">{{ stats.newsCount }}</div>
@@ -10,7 +12,9 @@
       </div>
 
       <div class="stat-card">
-        <div class="stat-icon product">📦</div>
+        <div class="stat-icon product">
+          <svg viewBox="0 0 1024 1024" width="24" height="24"><path d="M832 312V120c0-4.4-3.6-8-8-8H200c-4.4 0-8 3.6-8 8v192c0 4.4 3.6 8 8 8h624c4.4 0 8-3.6 8-8zm-512-80h-80v-40h80v40zm512 400V440c0-4.4-3.6-8-8-8H200c-4.4 0-8 3.6-8 8v192c0 4.4 3.6 8 8 8h624c4.4 0 8-3.6 8-8zm-512-80h-80v-40h80v40zm512 400V760c0-4.4-3.6-8-8-8H200c-4.4 0-8 3.6-8 8v192c0 4.4 3.6 8 8 8h624c4.4 0 8-3.6 8-8zm-512-80h-80v-40h80v40z" fill="currentColor"></path></svg>
+        </div>
         <div class="stat-content">
           <div class="stat-label">产品总数</div>
           <div class="stat-value">{{ stats.productCount }}</div>
@@ -18,7 +22,9 @@
       </div>
 
       <div class="stat-card">
-        <div class="stat-icon contact">📧</div>
+        <div class="stat-icon contact">
+          <svg viewBox="0 0 1024 1024" width="24" height="24"><path d="M928 160H96c-17.7 0-32 14.3-32 32v640c0 17.7 14.3 32 32 32h832c17.7 0 32-14.3 32-32V192c0-17.7-14.3-32-32-32zm-40 110.8L512 512 136 270.8V232l376 242.7L888 232v38.8z" fill="currentColor"></path></svg>
+        </div>
         <div class="stat-content">
           <div class="stat-label">待处理联系</div>
           <div class="stat-value">{{ stats.pendingContacts }}</div>
@@ -26,7 +32,9 @@
       </div>
 
       <div class="stat-card">
-        <div class="stat-icon business">🏢</div>
+        <div class="stat-icon business">
+          <svg viewBox="0 0 1024 1024" width="24" height="24"><path d="M896 160H128c-17.7 0-32 14.3-32 32v640c0 17.7 14.3 32 32 32h768c17.7 0 32-14.3 32-32V192c0-17.7-14.3-32-32-32zM384 736h-64V640h64v96zm0-160h-64v-96h64v96zm0-160h-64v-96h64v96zm160 320h-64V672h64v64zm0-160h-64v-64h64v64zm0-160h-64v-64h64v64z" fill="currentColor"></path></svg>
+        </div>
         <div class="stat-content">
           <div class="stat-label">业务信息</div>
           <div class="stat-value">{{ stats.businessCount }}</div>
@@ -39,16 +47,28 @@
         <h3>快速操作</h3>
         <div class="quick-actions">
           <router-link to="/admin/news" class="action-btn">
-            <span>📰</span> 新闻管理
+            <span class="btn-icon">
+              <svg viewBox="0 0 1024 1024" width="24" height="24"><path d="M904 160H120c-4.4 0-8 3.6-8 8v64c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-64c0-4.4-3.6-8-8-8zm0 624H120c-4.4 0-8 3.6-8 8v64c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-64c0-4.4-3.6-8-8-8zm0-312H120c-4.4 0-8 3.6-8 8v64c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-64c0-4.4-3.6-8-8-8z" fill="currentColor"></path></svg>
+            </span>
+            新闻管理
           </router-link>
           <router-link to="/admin/products" class="action-btn">
-            <span>📦</span> 产品管理
+            <span class="btn-icon">
+              <svg viewBox="0 0 1024 1024" width="24" height="24"><path d="M832 312V120c0-4.4-3.6-8-8-8H200c-4.4 0-8 3.6-8 8v192c0 4.4 3.6 8 8 8h624c4.4 0 8-3.6 8-8zm-512-80h-80v-40h80v40zm512 400V440c0-4.4-3.6-8-8-8H200c-4.4 0-8 3.6-8 8v192c0 4.4 3.6 8 8 8h624c4.4 0 8-3.6 8-8zm-512-80h-80v-40h80v40zm512 400V760c0-4.4-3.6-8-8-8H200c-4.4 0-8 3.6-8 8v192c0 4.4 3.6 8 8 8h624c4.4 0 8-3.6 8-8zm-512-80h-80v-40h80v40z" fill="currentColor"></path></svg>
+            </span>
+            产品管理
           </router-link>
           <router-link to="/admin/contacts" class="action-btn">
-            <span>📧</span> 联系表单
+            <span class="btn-icon">
+              <svg viewBox="0 0 1024 1024" width="24" height="24"><path d="M928 160H96c-17.7 0-32 14.3-32 32v640c0 17.7 14.3 32 32 32h832c17.7 0 32-14.3 32-32V192c0-17.7-14.3-32-32-32zm-40 110.8L512 512 136 270.8V232l376 242.7L888 232v38.8z" fill="currentColor"></path></svg>
+            </span>
+            联系表单
           </router-link>
           <router-link to="/admin/business" class="action-btn">
-            <span>🏢</span> 业务信息
+            <span class="btn-icon">
+              <svg viewBox="0 0 1024 1024" width="24" height="24"><path d="M896 160H128c-17.7 0-32 14.3-32 32v640c0 17.7 14.3 32 32 32h768c17.7 0 32-14.3 32-32V192c0-17.7-14.3-32-32-32zM384 736h-64V640h64v96zm0-160h-64v-96h64v96zm0-160h-64v-96h64v96zm160 320h-64V672h64v64zm0-160h-64v-64h64v64zm0-160h-64v-64h64v64z" fill="currentColor"></path></svg>
+            </span>
+            业务信息
           </router-link>
         </div>
       </div>
@@ -138,85 +158,50 @@ onMounted(() => {
 
 .stat-card {
   background: white;
-  padding: 20px;
+  padding: 24px;
   border-radius: 8px;
   display: flex;
   align-items: center;
-  gap: 15px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  gap: 20px;
+  box-shadow: var(--shadow-sm);
   transition: all 0.3s;
-}
-
-.stat-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border: 1px solid #f0f0f0;
 }
 
 .stat-icon {
-  font-size: 32px;
-  width: 60px;
-  height: 60px;
+  font-size: 24px;
+  width: 48px;
+  height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 8px;
+  border-radius: 4px;
 }
 
 .stat-icon.news {
-  background: #e3f2fd;
+  background: #e6f4ff;
+  color: #1677ff;
 }
 
 .stat-icon.product {
-  background: #f3e5f5;
+  background: #f9f0ff;
+  color: #722ed1;
 }
 
 .stat-icon.contact {
-  background: #e8f5e9;
+  background: #f6ffed;
+  color: #52c41a;
 }
 
 .stat-icon.business {
-  background: #fff3e0;
-}
-
-.stat-content {
-  flex: 1;
-}
-
-.stat-label {
-  color: #666;
-  font-size: 14px;
-  margin-bottom: 5px;
-}
-
-.stat-value {
-  font-size: 28px;
-  font-weight: 600;
-  color: #333;
-}
-
-.dashboard-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
-}
-
-.card {
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-}
-
-.card h3 {
-  margin: 0 0 20px 0;
-  color: #333;
-  font-size: 18px;
+  background: #fff7e6;
+  color: #faad14;
 }
 
 .quick-actions {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 16px;
 }
 
 .action-btn {
@@ -224,24 +209,31 @@ onMounted(() => {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 15px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  padding: 20px;
+  background: #fafafa;
+  color: var(--text-main);
   text-decoration: none;
-  border-radius: 6px;
+  border-radius: 8px;
   transition: all 0.3s;
-  font-size: 14px;
-  font-weight: 500;
+  border: 1px solid #f0f0f0;
+  gap: 8px;
 }
 
 .action-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+  background: white;
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+  box-shadow: 0 4px 12px rgba(22, 119, 255, 0.1);
 }
 
-.action-btn span {
+.btn-icon {
   font-size: 24px;
-  margin-bottom: 5px;
+  color: var(--text-secondary);
+  transition: all 0.3s;
+}
+
+.action-btn:hover .btn-icon {
+  color: var(--primary-color);
 }
 
 .system-info {

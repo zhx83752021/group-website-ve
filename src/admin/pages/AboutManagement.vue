@@ -1,90 +1,111 @@
 <template>
   <div class="about-management">
-    <div class="tabs">
-      <button 
-        v-for="tab in tabs" 
-        :key="tab.key" 
-        :class="['tab-btn', { active: activeTab === tab.key }]"
-        @click="activeTab = tab.key"
-      >
-        {{ tab.label }}
-      </button>
-    </div>
-
-    <div class="tab-content">
-      <!-- 发展历程管理 -->
-      <div v-if="activeTab === 'timeline'" class="timeline-mgmt">
-        <div class="header">
-          <h3>发展历程</h3>
-          <button @click="openTimelineModal()" class="btn-primary">+ 添加里程碑</button>
-        </div>
-        
-        <div class="table-container">
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th width="80">年份</th>
-                <th>标题</th>
-                <th>描述</th>
-                <th width="80">排序</th>
-                <th width="150">操作</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="item in timelineList" :key="item.id">
-                <td>{{ item.year }}</td>
-                <td>{{ item.title }}</td>
-                <td>{{ item.description }}</td>
-                <td>{{ item.order_index }}</td>
-                <td class="actions">
-                  <button @click="openTimelineModal(item)" class="btn-edit">编辑</button>
-                  <button @click="deleteTimeline(item.id)" class="btn-delete">删除</button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- 荣誉资质管理 -->
-      <div v-if="activeTab === 'honors'" class="honors-mgmt">
-        <div class="header">
-          <h3>荣誉资质</h3>
-          <button @click="openHonorModal()" class="btn-primary">+ 添加荣誉</button>
-        </div>
-        
-        <div class="table-container">
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th width="100">年份</th>
-                <th>标题</th>
-                <th width="80">排序</th>
-                <th width="150">操作</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="item in honorsList" :key="item.id">
-                <td>{{ item.year }}</td>
-                <td>{{ item.title }}</td>
-                <td>{{ item.order_index }}</td>
-                <td class="actions">
-                  <button @click="openHonorModal(item)" class="btn-edit">编辑</button>
-                  <button @click="deleteHonor(item.id)" class="btn-delete">删除</button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+    <div class="header">
+      <h2>关于我们管理</h2>
+      <div class="tabs">
+        <button 
+          v-for="tab in tabs" 
+          :key="tab.value" 
+          :class="['tab-btn', { active: activeTab === tab.value }]"
+          @click="activeTab = tab.value"
+        >
+          {{ tab.label }}
+        </button>
       </div>
     </div>
 
-    <!-- Timeline Modal (Simplified for now - Logic can be added later as needed) -->
-    <div v-if="showModal" class="modal-overlay">
-        <div class="modal">
-            <p>管理功能开发中，底层 API 已就绪。</p>
-            <button @click="showModal = false" class="btn-secondary">关闭</button>
+    <!-- 发展历程 -->
+    <div v-if="activeTab === 'timeline'" class="content-section">
+      <div class="section-header">
+        <h3>发展历程</h3>
+        <button class="btn-primary" @click="handleAdd('timeline')">+ 添加里程碑</button>
+      </div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th width="100">年份</th>
+            <th>标题</th>
+            <th>描述</th>
+            <th width="80">排序</th>
+            <th width="150">操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="item in timelineList" :key="item.id">
+            <td>{{ item.year }}</td>
+            <td>{{ item.title }}</td>
+            <td>{{ item.description }}</td>
+            <td>{{ item.order_index }}</td>
+            <td class="actions">
+              <button class="btn-edit" @click="handleEdit('timeline', item)">编辑</button>
+              <button class="btn-delete" @click="handleDelete('timeline', item.id)">删除</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 荣誉资质 -->
+    <div v-else class="content-section">
+      <div class="section-header">
+        <h3>荣誉资质</h3>
+        <button class="btn-primary" @click="handleAdd('honors')">+ 添加荣誉</button>
+      </div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th width="100">年份</th>
+            <th>荣誉名称</th>
+            <th>描述</th>
+            <th width="80">排序</th>
+            <th width="150">操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="item in honorsList" :key="item.id">
+            <td>{{ item.year }}</td>
+            <td>{{ item.title }}</td>
+            <td>{{ item.description }}</td>
+            <td>{{ item.order_index }}</td>
+            <td class="actions">
+              <button class="btn-edit" @click="handleEdit('honors', item)">编辑</button>
+              <button class="btn-delete" @click="handleDelete('honors', item.id)">删除</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 编辑/添加 弹窗 -->
+    <div v-if="dialogVisible" class="modal-overlay" @click="dialogVisible = false">
+      <div class="modal" @click.stop>
+        <div class="modal-header">
+          <h3>{{ (isEdit ? '编辑' : '添加') + (activeTab === 'timeline' ? '里程碑' : '荣誉') }}</h3>
+          <button type="button" @click="dialogVisible = false" class="btn-close">✕</button>
         </div>
+        <form @submit.prevent="handleSave">
+          <div class="form-group">
+            <label>年份 *</label>
+            <input v-model="form.year" type="text" placeholder="如: 2024" required />
+          </div>
+          <div class="form-group">
+            <label>标题 *</label>
+            <input v-model="form.title" type="text" required />
+          </div>
+          <div class="form-group">
+            <label>描述</label>
+            <textarea v-model="form.description" rows="3"></textarea>
+          </div>
+          <div class="form-group">
+            <label>排序权重</label>
+            <input v-model.number="form.order_index" type="number" min="0" />
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn-primary">保存</button>
+            <button type="button" @click="dialogVisible = false" class="btn-secondary">取消</button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </template>
@@ -92,17 +113,25 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { siteAPI } from '../../api/index'
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
 
-const activeTab = ref('timeline')
 const tabs = [
-  { key: 'timeline', label: '发展历程' },
-  { key: 'honors', label: '荣誉资质' }
+  { label: '发展历程', value: 'timeline' },
+  { label: '荣誉资质', value: 'honors' }
 ]
-
+const activeTab = ref('timeline')
 const timelineList = ref<any[]>([])
 const honorsList = ref<any[]>([])
-const showModal = ref(false)
+
+const dialogVisible = ref(false)
+const isEdit = ref(false)
+const form = ref({
+  id: null,
+  year: '',
+  title: '',
+  description: '',
+  order_index: 0
+})
 
 const fetchData = async () => {
   try {
@@ -113,20 +142,67 @@ const fetchData = async () => {
     if (tRes.data.success) timelineList.value = tRes.data.data
     if (hRes.data.success) honorsList.value = hRes.data.data
   } catch (error) {
-    console.error('获取数据失败:', error)
+    ElMessage.error('获取数据失败')
   }
 }
 
-const openTimelineModal = (item?: any) => {
-    showModal.value = true
+const handleAdd = (type: string) => {
+  isEdit.value = false
+  form.value = { id: null, year: '', title: '', description: '', order_index: 0 }
+  dialogVisible.value = true
 }
 
-const openHonorModal = (item?: any) => {
-    showModal.value = true
+const handleEdit = (type: string, item: any) => {
+  isEdit.value = true
+  form.value = { ...item }
+  dialogVisible.value = true
 }
 
-const deleteTimeline = (id: string) => ElMessage.warning('后台删除接口对接中')
-const deleteHonor = (id: string) => ElMessage.warning('后台删除接口对接中')
+const handleSave = async () => {
+  try {
+    let res
+    if (activeTab.value === 'timeline') {
+      if (isEdit.value) {
+        res = await siteAPI.updateTimeline(form.value.id!, form.value)
+      } else {
+        res = await siteAPI.createTimeline(form.value)
+      }
+    } else {
+      if (isEdit.value) {
+        res = await siteAPI.updateHonors(form.value.id!, form.value)
+      } else {
+        res = await siteAPI.createHonors(form.value)
+      }
+    }
+
+    if (res.data.success) {
+      ElMessage.success('保存成功')
+      dialogVisible.value = false
+      fetchData()
+    }
+  } catch (error) {
+    ElMessage.error('保存失败')
+  }
+}
+
+const handleDelete = async (type: string, id: number) => {
+  try {
+    await ElMessageBox.confirm('确定要删除此项吗？', '提示', { type: 'warning' })
+    let res
+    if (type === 'timeline') {
+      res = await siteAPI.deleteTimeline(id)
+    } else {
+      res = await siteAPI.deleteHonors(id)
+    }
+    
+    if (res.data.success) {
+      ElMessage.success('已删除')
+      fetchData()
+    }
+  } catch (error) {
+    if (error !== 'cancel') ElMessage.error('删除失败')
+  }
+}
 
 onMounted(fetchData)
 </script>
@@ -134,55 +210,56 @@ onMounted(fetchData)
 <style scoped>
 .about-management {
   background: white;
-  padding: 20px;
+  padding: 24px;
   border-radius: 8px;
+  box-shadow: var(--shadow-sm);
+}
+
+.header {
+  margin-bottom: 24px;
+  border-bottom: 1px solid #f0f0f0;
+  padding-bottom: 16px;
 }
 
 .tabs {
   display: flex;
-  gap: 10px;
-  margin-bottom: 25px;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 10px;
+  gap: 12px;
+  margin-top: 16px;
 }
 
 .tab-btn {
-  padding: 10px 20px;
-  border: none;
-  background: none;
+  padding: 8px 20px;
+  border: 1px solid #d9d9d9;
+  background: white;
+  border-radius: 4px;
   cursor: pointer;
-  font-weight: 600;
-  color: #666;
-  border-radius: 6px;
-  transition: all 0.3s;
+  font-weight: 400;
+  transition: all 0.2s;
+  color: var(--text-main);
 }
 
 .tab-btn.active {
-  background: #667eea;
+  background: var(--primary-color);
   color: white;
+  border-color: var(--primary-color);
 }
 
-.header {
+.tab-btn:hover:not(.active) {
+  color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.section-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
 }
 
-/* Modals */
-.modal-overlay {
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0,0,0,0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-}
-.modal {
-    background: white;
-    padding: 30px;
-    border-radius: 12px;
-    text-align: center;
+.section-header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-main);
 }
 </style>

@@ -97,8 +97,20 @@ export const authAPI = {
 // 站点信息 API
 export const siteAPI = {
   getTimeline: () => api.get('/site/timeline'),
+  createTimeline: (data: any) => api.post('/site/timeline', data),
+  updateTimeline: (id: number, data: any) => api.put(`/site/timeline/${id}`, data),
+  deleteTimeline: (id: number) => api.delete(`/site/timeline/${id}`),
+
   getHonors: () => api.get('/site/honors'),
+  createHonors: (data: any) => api.post('/site/honors', data),
+  updateHonors: (id: number, data: any) => api.put(`/site/honors/${id}`, data),
+  deleteHonors: (id: number) => api.delete(`/site/honors/${id}`),
+
   getCases: () => api.get('/site/cases'),
+  createCase: (data: any) => api.post('/site/cases', data),
+  updateCase: (id: number, data: any) => api.put(`/site/cases/${id}`, data),
+  deleteCase: (id: number) => api.delete(`/site/cases/${id}`),
+
   getConfig: () => api.get('/site/config'),
   updateConfig: (data: any) => api.post('/site/config', data),
 };

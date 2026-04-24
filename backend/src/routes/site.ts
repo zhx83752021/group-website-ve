@@ -44,6 +44,123 @@ router.get('/cases', async (req, res) => {
   }
 });
 
+// --- Timeline CRUD ---
+
+router.post('/timeline', async (req, res) => {
+  const { year, title, description, order_index } = req.body;
+  try {
+    const result = await query(
+      'INSERT INTO timeline (year, title, description, order_index) VALUES ($1, $2, $3, $4) RETURNING *',
+      [year, title, description, order_index || 0]
+    );
+    res.json({ success: true, data: result.rows[0] });
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+router.put('/timeline/:id', async (req, res) => {
+  const { id } = req.params;
+  const { year, title, description, order_index } = req.body;
+  try {
+    const result = await query(
+      'UPDATE timeline SET year = $1, title = $2, description = $3, order_index = $4, updated_at = CURRENT_TIMESTAMP WHERE id = $5 RETURNING *',
+      [year, title, description, order_index, id]
+    );
+    res.json({ success: true, data: result.rows[0] });
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+router.delete('/timeline/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    await query('DELETE FROM timeline WHERE id = $1', [id]);
+    res.json({ success: true, message: '已删除' });
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+// --- Honors CRUD ---
+
+router.post('/honors', async (req, res) => {
+  const { year, title, description, order_index } = req.body;
+  try {
+    const result = await query(
+      'INSERT INTO honors (year, title, description, order_index) VALUES ($1, $2, $3, $4) RETURNING *',
+      [year, title, description, order_index || 0]
+    );
+    res.json({ success: true, data: result.rows[0] });
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+router.put('/honors/:id', async (req, res) => {
+  const { id } = req.params;
+  const { year, title, description, order_index } = req.body;
+  try {
+    const result = await query(
+      'UPDATE honors SET year = $1, title = $2, description = $3, order_index = $4, updated_at = CURRENT_TIMESTAMP WHERE id = $5 RETURNING *',
+      [year, title, description, order_index, id]
+    );
+    res.json({ success: true, data: result.rows[0] });
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+router.delete('/honors/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    await query('DELETE FROM honors WHERE id = $1', [id]);
+    res.json({ success: true, message: '已删除' });
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+// --- Cases CRUD ---
+
+router.post('/cases', async (req, res) => {
+  const { title, company, image_url, stats, order_index } = req.body;
+  try {
+    const result = await query(
+      'INSERT INTO cases (title, company, image_url, stats, order_index) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+      [title, company, image_url, Array.isArray(stats) ? stats.join(',') : stats, order_index || 0]
+    );
+    res.json({ success: true, data: result.rows[0] });
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+router.put('/cases/:id', async (req, res) => {
+  const { id } = req.params;
+  const { title, company, image_url, stats, order_index } = req.body;
+  try {
+    const result = await query(
+      'UPDATE cases SET title = $1, company = $2, image_url = $3, stats = $4, order_index = $5, updated_at = CURRENT_TIMESTAMP WHERE id = $6 RETURNING *',
+      [title, company, image_url, Array.isArray(stats) ? stats.join(',') : stats, order_index, id]
+    );
+    res.json({ success: true, data: result.rows[0] });
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+router.delete('/cases/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    await query('DELETE FROM cases WHERE id = $1', [id]);
+    res.json({ success: true, message: '已删除' });
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
 /**
  * 获取站点全局配置
  */

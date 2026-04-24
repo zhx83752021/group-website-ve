@@ -149,12 +149,14 @@ onMounted(fetchUsers);
 /* 页面特有样式 - 公共样式已在 AdminLayout 中引入 */
 .user-management {
   background: white;
-  padding: 20px;
+  padding: 24px;
   border-radius: 8px;
+  box-shadow: var(--shadow-sm);
 }
 
 .form-group input:disabled {
   background: #f5f5f5;
   cursor: not-allowed;
+  color: rgba(0, 0, 0, 0.25);
 }
 </style>
