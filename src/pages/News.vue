@@ -1,7 +1,7 @@
 <template>
   <div class="news">
     <!-- 页面标题 -->
-    <section class="page-header">
+    <section class="page-header" :style="{ backgroundImage: `url(${bannerImg})` }">
       <div class="container">
         <h1>新闻中心</h1>
         <p>了解集团最新动态和行业资讯</p>
@@ -50,6 +50,7 @@ import { ref, computed, onMounted } from 'vue'
 import { newsAPI } from '../api/index'
 
 const activeCategory = ref('全部')
+import bannerImg from '@/assets/about_bg.png'
 const categories = ['全部', '公司新闻', '产品发布', '合作动态', '行业资讯']
 const allNews = ref<any[]>([])
 const currentPage = ref(1)
@@ -105,6 +106,7 @@ onMounted(() => {
 <style scoped>
 .news {
   min-height: 100vh;
+  padding-top: 80px; /* 增加顶部内边距，防止被全局固定头部遮挡 */
 }
 
 .container {
@@ -113,29 +115,37 @@ onMounted(() => {
   padding: 0 1rem;
 }
 
-/* 页面标题 */
+/* 页面标题 (同步 About 页) */
 .page-header {
-  background: linear-gradient(90deg, #4f46e5 0%, #7c3aed 100%);
-  color: white;
-  padding: 4rem 1rem;
+  background-size: cover;
+  background-position: center;
+  padding: 5rem 1rem;
   text-align: center;
   margin-top: 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .page-header h1 {
-  font-size: 2.5rem;
+  font-size: 3rem;
   margin: 0 0 1rem 0;
+  color: #1e3a8a;
+  font-weight: 800;
+  letter-spacing: 2px;
 }
 
 .page-header p {
   font-size: 1.2rem;
   margin: 0;
-  opacity: 0.9;
+  color: #4b5563;
+  font-weight: 500;
 }
 
 /* 新闻列表 */
 .news-list {
-  padding: 4rem 0;
+  padding: 2rem 0;
 }
 
 /* 分类过滤 */
@@ -157,14 +167,14 @@ onMounted(() => {
 }
 
 .filter-btn:hover {
-  border-color: #667eea;
-  color: #667eea;
+  border-color: #3b82f6;
+  color: #3b82f6;
 }
 
 .filter-btn--active {
-  background: #667eea;
+  background: #3b82f6;
   color: white;
-  border-color: #667eea;
+  border-color: #3b82f6;
 }
 
 /* 新闻网格 */
@@ -207,7 +217,7 @@ onMounted(() => {
 
 .news-card__category {
   display: inline-block;
-  background: #667eea;
+  background: #3b82f6;
   color: white;
   padding: 0.25rem 0.75rem;
   border-radius: 20px;
@@ -245,7 +255,7 @@ onMounted(() => {
 }
 
 .news-card__read {
-  color: #667eea;
+  color: #3b82f6;
   font-weight: 600;
   font-size: 0.9rem;
 }
@@ -267,14 +277,14 @@ onMounted(() => {
 }
 
 .pagination__btn:hover {
-  border-color: #667eea;
-  color: #667eea;
+  border-color: #3b82f6;
+  color: #3b82f6;
 }
 
 .pagination__btn--active {
-  background: #667eea;
+  background: #3b82f6;
   color: white;
-  border-color: #667eea;
+  border-color: #3b82f6;
 }
 
 /* 响应式 */

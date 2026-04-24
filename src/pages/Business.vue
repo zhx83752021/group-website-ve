@@ -1,7 +1,7 @@
 <template>
   <div class="business">
     <!-- 页面标题 -->
-    <section class="page-header">
+    <section class="page-header" :style="{ backgroundImage: `url(${bannerImg})` }">
       <div class="container">
         <h1>业务布局</h1>
         <p>我们的核心业务和解决方案</p>
@@ -29,7 +29,12 @@
     <!-- 成功案例 -->
     <section class="cases">
       <div class="container">
-        <h2>成功案例</h2>
+        <!-- 标题通用组件 -->
+        <div class="section-title">
+          <div class="title-dot-left"></div>
+          <h2>成功案例</h2>
+          <div class="title-dot-right"></div>
+        </div>
         <div class="cases__grid">
           <div v-for="caseItem in cases" :key="caseItem.id" class="case-card">
             <img :src="caseItem.image" :alt="caseItem.title" class="case-card__image" />
@@ -48,7 +53,12 @@
     <!-- 服务流程 -->
     <section class="process">
       <div class="container">
-        <h2>服务流程</h2>
+        <!-- 标题通用组件 -->
+        <div class="section-title">
+          <div class="title-dot-left"></div>
+          <h2>服务流程</h2>
+          <div class="title-dot-right"></div>
+        </div>
         <div class="process__steps">
           <div v-for="(step, index) in processSteps" :key="step.id" class="process__step">
             <div class="process__step-number">{{ index + 1 }}</div>
@@ -65,6 +75,7 @@ import { ref, onMounted } from 'vue'
 import { businessAPI } from '../api/index'
 
 const businesses = ref<any[]>([])
+import bannerImg from '@/assets/about_bg.png'
 
 // 从后端获取业务数据
 const fetchBusinesses = async () => {
@@ -166,6 +177,7 @@ const processSteps = [
 <style scoped>
 .business {
   min-height: 100vh;
+  padding-top: 80px; /* 增加顶部内边距，防止被全局固定头部遮挡 */
 }
 
 .container {
@@ -174,29 +186,37 @@ const processSteps = [
   padding: 0 1rem;
 }
 
-/* 页面标题 */
+/* 页面标题 (同步 About 页) */
 .page-header {
-  background: linear-gradient(90deg, #4f46e5 0%, #7c3aed 100%);
-  color: white;
-  padding: 4rem 1rem;
+  background-size: cover;
+  background-position: center;
+  padding: 5rem 1rem;
   text-align: center;
   margin-top: 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .page-header h1 {
-  font-size: 2.5rem;
+  font-size: 3rem;
   margin: 0 0 1rem 0;
+  color: #1e3a8a;
+  font-weight: 800;
+  letter-spacing: 2px;
 }
 
 .page-header p {
   font-size: 1.2rem;
   margin: 0;
-  opacity: 0.9;
+  color: #4b5563;
+  font-weight: 500;
 }
 
 /* 业务板块 */
 .business-sections {
-  padding: 4rem 0;
+  padding: 2rem 0;
 }
 
 .business-item {
@@ -269,35 +289,67 @@ const processSteps = [
 
 .btn {
   display: inline-block;
-  padding: 0.75rem 2rem;
-  border-radius: 4px;
+  padding: 0.75rem 2.2rem;
+  border-radius: 6px;
   text-decoration: none;
   font-weight: 600;
   transition: all 0.3s ease;
-  border: 2px solid transparent;
+  border: 1.5px solid transparent;
+  cursor: pointer;
 }
 
 .btn--primary {
-  background: #667eea;
+  background: #3b82f6; /* 主题蓝 */
   color: white;
+  border-color: #3b82f6;
 }
 
 .btn--primary:hover {
+  background: #2563eb;
+  border-color: #2563eb;
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 5px 15px rgba(59, 130, 246, 0.35);
 }
 
 /* 成功案例 */
 .cases {
   background: #f8f9fa;
-  padding: 4rem 0;
+  padding: 2rem 0;
 }
 
-.cases h2 {
-  text-align: center;
-  font-size: 2rem;
-  margin-bottom: 3rem;
-  color: #333;
+/* 标题通用系统 (同主题规范) */
+.section-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.2rem;
+  margin-bottom: 3.5rem;
+}
+.section-title h2 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #1e3a8a; /* 深蓝色 */
+  margin: 0;
+  letter-spacing: 1px;
+}
+.title-dot-left, .title-dot-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.title-dot-left::before, .title-dot-right::after {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #bfdbfe; /* 淡蓝小点 */
+}
+.title-dot-left::after, .title-dot-right::before {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #60a5fa; /* 实心蓝大点 */
 }
 
 .cases__grid {
@@ -362,14 +414,7 @@ const processSteps = [
 
 /* 服务流程 */
 .process {
-  padding: 4rem 0;
-}
-
-.process h2 {
-  text-align: center;
-  font-size: 2rem;
-  margin-bottom: 3rem;
-  color: #333;
+  padding: 2rem 0;
 }
 
 .process__steps {

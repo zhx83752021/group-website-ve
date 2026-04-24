@@ -1,7 +1,7 @@
 <template>
   <div class="contact">
     <!-- 页面标题 -->
-    <section class="page-header">
+    <section class="page-header" :style="{ backgroundImage: `url(${bannerImg})` }">
       <div class="container">
         <h1>联系我们</h1>
         <p>我们随时准备为您服务</p>
@@ -13,25 +13,33 @@
       <div class="container">
         <div class="info-grid">
           <div class="info-card">
-            <div class="info-card__icon">📞</div>
+            <div class="info-card__icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </div>
             <h3>电话</h3>
             <p>400-660-8066</p>
             <p class="info-card__desc">工作时间：周一至周五 9:00-17:45</p>
           </div>
           <div class="info-card">
-            <div class="info-card__icon">📧</div>
+            <div class="info-card__icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
             <h3>邮箱</h3>
             <p>info@group.com</p>
             <p class="info-card__desc">我们会在24小时内回复您的邮件</p>
           </div>
           <div class="info-card">
-            <div class="info-card__icon">📍</div>
+            <div class="info-card__icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
             <h3>地址</h3>
             <p>北京市经济技术开发区</p>
             <p class="info-card__desc">地盛西路1号 数码庄园A2座</p>
           </div>
           <div class="info-card">
-            <div class="info-card__icon">💬</div>
+            <div class="info-card__icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+            </div>
             <h3>在线客服</h3>
             <p>7x24小时在线</p>
             <p class="info-card__desc">点击右下角客服按钮即可咨询</p>
@@ -105,7 +113,12 @@
     <!-- 分公司 -->
     <section class="branches">
       <div class="container">
-        <h2>全国分公司</h2>
+        <!-- 标题通用组件 -->
+        <div class="section-title">
+          <div class="title-dot-left"></div>
+          <h2>全国分公司</h2>
+          <div class="title-dot-right"></div>
+        </div>
         <div class="branches-grid">
           <div v-for="branch in branches" :key="branch.id" class="branch-card">
             <h3>{{ branch.city }}</h3>
@@ -133,6 +146,7 @@ const form = ref({
 
 const submitMessage = ref<{ type: string; text: string } | null>(null)
 const isSubmitting = ref(false)
+import bannerImg from '@/assets/about_bg.png'
 
 const branches = [
   { id: 1, city: '北京', address: '北京市经济技术开发区地盛西路1号', phone: '010-1234-5678' },
@@ -196,6 +210,7 @@ const submitForm = async () => {
 <style scoped>
 .contact {
   min-height: 100vh;
+  padding-top: 80px; /* 增加顶部内边距，防止被全局固定头部遮挡 */
 }
 
 .container {
@@ -204,29 +219,37 @@ const submitForm = async () => {
   padding: 0 1rem;
 }
 
-/* 页面标题 */
+/* 页面标题 (同步 About 页) */
 .page-header {
-  background: linear-gradient(90deg, #4f46e5 0%, #7c3aed 100%);
-  color: white;
-  padding: 4rem 1rem;
+  background-size: cover;
+  background-position: center;
+  padding: 5rem 1rem;
   text-align: center;
   margin-top: 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .page-header h1 {
-  font-size: 2.5rem;
+  font-size: 3rem;
   margin: 0 0 1rem 0;
+  color: #1e3a8a;
+  font-weight: 800;
+  letter-spacing: 2px;
 }
 
 .page-header p {
   font-size: 1.2rem;
   margin: 0;
-  opacity: 0.9;
+  color: #4b5563;
+  font-weight: 500;
 }
 
 /* 联系方式 */
 .contact-info {
-  padding: 4rem 0;
+  padding: 2rem 0;
   background: #f8f9fa;
 }
 
@@ -251,8 +274,22 @@ const submitForm = async () => {
 }
 
 .info-card__icon {
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 1.5rem;
+  background: #eff6ff; /* 浅蓝圆形背景 */
+  color: #3b82f6; /* 主题蓝图标颜色 */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.info-card:hover .info-card__icon {
+  background: #3b82f6;
+  color: white;
+  transform: rotate(10deg);
 }
 
 .info-card h3 {
@@ -272,7 +309,7 @@ const submitForm = async () => {
 
 /* 联系表单 */
 .contact-form-section {
-  padding: 4rem 0;
+  padding: 2rem 0;
 }
 
 .form-wrapper {
@@ -331,27 +368,30 @@ const submitForm = async () => {
 
 .btn {
   display: inline-block;
-  padding: 0.75rem 2rem;
-  border-radius: 4px;
+  padding: 0.75rem 2.2rem;
+  border-radius: 6px;
   text-decoration: none;
   font-weight: 600;
   transition: all 0.3s ease;
-  border: none;
+  border: 1.5px solid transparent;
   cursor: pointer;
 }
 
 .btn--primary {
-  background: #667eea;
+  background: #3b82f6; /* 主题蓝 */
   color: white;
+  border-color: #3b82f6;
 }
 
 .btn--primary:hover {
+  background: #2563eb;
+  border-color: #2563eb;
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 5px 15px rgba(59, 130, 246, 0.35);
 }
 
 .btn--large {
-  padding: 1rem 2rem;
+  padding: 1rem 3rem;
   font-size: 1.1rem;
 }
 
@@ -391,14 +431,42 @@ const submitForm = async () => {
 /* 分公司 */
 .branches {
   background: #f8f9fa;
-  padding: 4rem 0;
+  padding: 2rem 0;
 }
 
-.branches h2 {
-  text-align: center;
-  font-size: 2rem;
-  margin-bottom: 3rem;
-  color: #333;
+/* 标题通用系统 (同主题规范) */
+.section-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.2rem;
+  margin-bottom: 3.5rem;
+}
+.section-title h2 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #1e3a8a; /* 深蓝色 */
+  margin: 0;
+  letter-spacing: 1px;
+}
+.title-dot-left, .title-dot-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.title-dot-left::before, .title-dot-right::after {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #bfdbfe; /* 淡蓝小点 */
+}
+.title-dot-left::after, .title-dot-right::before {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #60a5fa; /* 实心蓝大点 */
 }
 
 .branches-grid {

@@ -1,7 +1,7 @@
 <template>
   <div class="news-detail" v-if="news">
     <!-- 文章头部 -->
-    <section class="article-header">
+    <section class="article-header" :style="{ backgroundImage: `url(${bannerImg})` }">
       <div class="container">
         <h1>{{ news.title }}</h1>
         <div class="article-meta">
@@ -86,7 +86,12 @@
     <!-- 相关推荐 -->
     <section class="related-articles">
       <div class="container">
-        <h2>相关推荐</h2>
+        <!-- 标题通用组件 -->
+        <div class="section-title">
+          <div class="title-dot-left"></div>
+          <h2>相关推荐</h2>
+          <div class="title-dot-right"></div>
+        </div>
         <div class="articles-grid">
           <router-link v-for="article in relatedNewsList" :key="article.id" :to="`/news/${article.id}`"
             class="article-card">
@@ -111,6 +116,7 @@ import { newsAPI } from '../api/index'
 
 const route = useRoute()
 const news = ref<any>(null)
+import bannerImg from '@/assets/about_bg.png'
 const relatedNewsList = ref<any[]>([])
 
 const newsId = route.params.id as string
@@ -165,6 +171,7 @@ onMounted(() => {
 <style scoped>
 .news-detail {
   min-height: 100vh;
+  padding-top: 80px; /* 增加顶部内边距，防止被全局固定头部遮挡 */
 }
 
 .container {
@@ -173,21 +180,30 @@ onMounted(() => {
   padding: 0 1rem;
 }
 
-/* 文章头部 */
+/* 文章头部 (同步 About 页 Banner) */
 .article-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  padding: 3rem 1rem;
+  background-size: cover;
+  background-position: center;
+  padding: 5rem 1rem;
   text-align: center;
-  margin-top: 60px;
+  margin-top: 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .article-header h1 {
-  font-size: 2rem;
+  font-size: 2.2rem; /* 详情页标题稍小一些 */
   margin: 0 0 1rem 0;
+  color: #1e3a8a;
+  font-weight: 800;
+  letter-spacing: 1px;
 }
 
 .article-meta {
+  color: #4b5563;
+  font-weight: 500;
   display: flex;
   justify-content: center;
   gap: 2rem;
@@ -205,7 +221,7 @@ onMounted(() => {
 
 /* 文章内容 */
 .article-content {
-  padding: 3rem 0;
+  padding: 2rem 0;
   display: grid;
   grid-template-columns: 1fr 300px;
   gap: 2rem;
@@ -276,7 +292,7 @@ onMounted(() => {
 }
 
 .share-btn:hover {
-  background: #667eea;
+  background: #3b82f6;
   color: white;
 }
 
@@ -317,7 +333,7 @@ onMounted(() => {
 }
 
 .related-news a {
-  color: #667eea;
+  color: #3b82f6;
   text-decoration: none;
   font-size: 0.95rem;
   transition: color 0.3s ease;
@@ -335,34 +351,65 @@ onMounted(() => {
 .btn {
   display: inline-block;
   padding: 0.75rem 1.5rem;
-  border-radius: 4px;
+  border-radius: 6px;
   text-decoration: none;
   font-weight: 600;
   transition: all 0.3s ease;
   width: 100%;
   text-align: center;
+  border: 1.5px solid transparent;
 }
 
 .btn--primary {
-  background: #667eea;
+  background: #3b82f6;
   color: white;
+  border-color: #3b82f6;
 }
 
 .btn--primary:hover {
-  background: #764ba2;
+  background: #2563eb;
+  border-color: #2563eb;
 }
 
 /* 相关推荐 */
 .related-articles {
   background: #f8f9fa;
-  padding: 4rem 0;
+  padding: 2rem 0;
 }
 
-.related-articles h2 {
-  text-align: center;
-  font-size: 2rem;
-  margin-bottom: 3rem;
-  color: #333;
+/* 标题通用系统 (同主题规范) */
+.section-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.2rem;
+  margin-bottom: 3.5rem;
+}
+.section-title h2 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #1e3a8a; /* 深蓝色 */
+  margin: 0;
+  letter-spacing: 1px;
+}
+.title-dot-left, .title-dot-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.title-dot-left::before, .title-dot-right::after {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #bfdbfe; /* 淡蓝小点 */
+}
+.title-dot-left::after, .title-dot-right::before {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #60a5fa; /* 实心蓝大点 */
 }
 
 .articles-grid {
@@ -417,7 +464,7 @@ onMounted(() => {
 }
 
 .not-found a {
-  color: #667eea;
+  color: #3b82f6;
   text-decoration: none;
   font-weight: 600;
 }
